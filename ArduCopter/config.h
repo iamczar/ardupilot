@@ -296,6 +296,12 @@
 #endif
 
 //////////////////////////////////////////////////////////////////////////////
+// DriftAlt - fly vehicle in altitude-held, coordinated-turn mode,altitude assisted
+#ifndef MODE_DRIFT_ALT_ENABLED
+# define MODE_DRIFT_ALT_ENABLED ENABLED
+#endif
+
+//////////////////////////////////////////////////////////////////////////////
 // Follow - follow another vehicle or GCS
 #ifndef MODE_FOLLOW_ENABLED
 # define MODE_FOLLOW_ENABLED !HAL_MINIMIZE_FEATURES
