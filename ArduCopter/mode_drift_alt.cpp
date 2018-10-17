@@ -1,6 +1,6 @@
 #include "Copter.h"
 
-#if MODE_DRIFT2_ENABLED == ENABLED
+#if MODE_DRIFT_ALT_ENABLED == ENABLED
 
 /*
  * Init and run calls for drift flight mode
@@ -29,7 +29,7 @@
 #endif
 
 // drift_init - initialise drift controller
-bool Copter::ModeDrift2::init(bool ignore_checks)
+bool Copter::ModeDriftAlt::init(bool ignore_checks)
 {
     if (copter.position_ok() || ignore_checks) {
         gcs().send_text(MAV_SEVERITY_INFO, "Custom Drift Mode");
@@ -41,7 +41,7 @@ bool Copter::ModeDrift2::init(bool ignore_checks)
 
 // drift_run - runs the drift controller
 // should be called at 100hz or more
-void Copter::ModeDrift2::run()
+void Copter::ModeDriftAlt::run()
 {
     static float braker = 0.0f;
     static float roll_input = 0.0f;
@@ -118,7 +118,7 @@ void Copter::ModeDrift2::run()
 }
 
 // get_throttle_assist - return throttle output (range 0 ~ 1) based on pilot input and z-axis velocity
-float Copter::ModeDrift2::get_throttle_assist(float velz, float pilot_throttle_scaled)
+float Copter::ModeDriftAlt::get_throttle_assist(float velz, float pilot_throttle_scaled)
 {
     // throttle assist - adjusts throttle to slow the vehicle's vertical velocity
     //      Only active when pilot's throttle is between 213 ~ 787
