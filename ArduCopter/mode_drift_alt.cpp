@@ -47,7 +47,7 @@ void Copter::ModeDriftAlt::run()
     static float roll_input = 0.0f;
     float target_roll, target_pitch;
     float target_yaw_rate;
-    float pilot_throttle_scaled;
+    //float pilot_throttle_scaled;
     gcs().send_text(MAV_SEVERITY_INFO, "Custom Drift Mode Running");
     // if landed and throttle at zero, set throttle to zero and exit immediately
     if (!motors->armed() || !motors->get_interlock() || (ap.land_complete && ap.throttle_zero)) {
@@ -102,6 +102,8 @@ void Copter::ModeDriftAlt::run()
     }else{
         braker = 0.0f;
     }
+    
+    //add geofence code here
 
     // set motors to full range
     motors->set_desired_spool_state(AP_Motors::DESIRED_THROTTLE_UNLIMITED);
