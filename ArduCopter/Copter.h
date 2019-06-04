@@ -874,6 +874,9 @@ private:
 #if MODE_DRIFT_ENABLED == ENABLED
     ModeDrift mode_drift;
 #endif
+#if MODE_DRIFT_ALT_ENABLED == ENABLED
+    ModeDriftAlt mode_drift_alt;
+#endif
 #if MODE_FLIP_ENABLED == ENABLED
     ModeFlip mode_flip;
 #endif

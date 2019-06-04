@@ -159,6 +159,11 @@ Copter::Mode *Copter::mode_from_mode_num(const uint8_t mode)
             ret = &mode_zigzag;
             break;
 #endif
+#if MODE_DRIFT_ALT_ENABLED == ENABLED
+        case DRIFT_ALT:
+            ret = &mode_drift_alt;
+            break;
+#endif
 
         default:
             break;
