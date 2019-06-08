@@ -300,6 +300,12 @@
 #endif
 
 //////////////////////////////////////////////////////////////////////////////
+// DriftAlt - fly vehicle in altitude-held, coordinated-turn mode,altitude assisted
+#ifndef MODE_DRIFT_ALT_ENABLED
+# define MODE_DRIFT_ALT_ENABLED ENABLED
+#endif
+
+//////////////////////////////////////////////////////////////////////////////
 // flip - fly vehicle in flip in pitch and roll direction mode
 #ifndef MODE_FLIP_ENABLED
 # define MODE_FLIP_ENABLED ENABLED

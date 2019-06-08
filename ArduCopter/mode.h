@@ -609,8 +609,8 @@ public:
 
 protected:
 
-    const char *name() const override { return "DRIFT"; }
-    const char *name4() const override { return "DRIF"; }
+    const char *name() const override { return "DRALT"; }
+    const char *name4() const override { return "DRALT"; }
 
 private:
 
