@@ -159,6 +159,12 @@ Mode *Copter::mode_from_mode_num(const uint8_t mode)
             break;
 #endif
 
+#if MODE_EOS_ENABLED == ENABLED
+        case EOS:
+            ret = &mode_eos;
+            break;
+#endif
+
         default:
             break;
     }
