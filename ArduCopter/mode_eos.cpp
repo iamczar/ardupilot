@@ -16,6 +16,12 @@ bool Copter::ModeEos::init(bool ignore_checks)
         gcs().send_text(MAV_SEVERITY_INFO, "EOS mode active");
     }
 
+
+    // initialise motors and servos?? - taken from quadplane
+    SRV_Channels::set_aux_channel_default(SRV_Channel::k_tiltMotorLeft, CH_2); // attempt to map channel 2 to the servo
+    
+    SRV_Channels::enable_aux_servos();
+    
     return true;
 }
 
@@ -23,8 +29,6 @@ bool Copter::ModeEos::init(bool ignore_checks)
 // should be called at 100hz or more
 void Copter::ModeEos::run()
 {
-    gcs().send_text(MAV_SEVERITY_INFO, "EOS mode active");
-    
     float takeoff_climb_rate = 0.0f;
 
     // initialize vertical speeds and acceleration
@@ -110,5 +114,10 @@ void Copter::ModeEos::run()
 
     // call z-axis position controller
     pos_control->update_z_controller();
+
+    // moving tilting motor back and forth
+    SRV_Channels::set_output_pwm(SRV_Channel::k_tiltMotorLeft, RC_Channels::rc_channel(CH_2)->get_radio_in());
+    SRV_Channels::calc_pwm();
+    SRV_Channels::output_ch_all();
 
 }
