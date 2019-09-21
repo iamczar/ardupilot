@@ -230,6 +230,7 @@ public:
     friend class ModeThrow;
     friend class ModeZigZag;
     friend class ModeAutorotate;
+    friend class ModeEos;
 
     Copter(void);
 
@@ -897,6 +898,9 @@ private:
 #endif
 #endif
     ModeAltHold mode_althold;
+#if MODE_EOS_ENABLED == ENABLED
+    ModeEos mode_eos;
+#endif
 #if MODE_AUTO_ENABLED == ENABLED
     ModeAuto mode_auto;
 #endif

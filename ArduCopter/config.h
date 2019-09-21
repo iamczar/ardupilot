@@ -390,6 +390,11 @@
     # define MODE_AUTOROTATE_ENABLED DISABLED
 #endif
 //////////////////////////////////////////////////////////////////////////////
+// EOS - EOS mode is a tilt quad mode
+#ifndef MODE_EOS_ENABLED
+# define MODE_EOS_ENABLED ENABLED
+#endif
+//////////////////////////////////////////////////////////////////////////////
 
 // Beacon support - support for local positioning systems
 #ifndef BEACON_ENABLED
@@ -428,7 +433,7 @@
  # define FLIGHT_MODE_5                  Mode::Number::STABILIZE
 #endif
 #ifndef FLIGHT_MODE_6
- # define FLIGHT_MODE_6                  Mode::Number::STABILIZE
+ # define FLIGHT_MODE_6                  Mode::Number::EOS
 #endif
 
 

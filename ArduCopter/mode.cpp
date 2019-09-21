@@ -160,7 +160,13 @@ Mode *Copter::mode_from_mode_num(const Mode::Number mode)
 #if MODE_SYSTEMID_ENABLED == ENABLED
         case Mode::Number::SYSTEMID:
             ret = (Mode *)g2.mode_systemid_ptr;
-            break;
+	break;
+#endif
+
+#if MODE_EOS_ENABLED == ENABLED
+        case Mode::Number::EOS:
+            ret = &mode_eos;
+        break;
 #endif
 
 #if MODE_AUTOROTATE_ENABLED == ENABLED
