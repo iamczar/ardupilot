@@ -17,9 +17,10 @@ bool ModeEos::init(bool ignore_checks)
     }
 
 
-    // initialise motors and servos?? - taken from quadplane
-    SRV_Channels::set_aux_channel_default(SRV_Channel::k_tiltMotorLeft, CH_2); // attempt to map channel 2 to the servo
-    
+    // initialise servo channel 9 and 10 to to output rc channel 2
+    SRV_Channels::set_aux_channel_default(SRV_Channel::k_eos_front_motor_tilt, CH_9); // attempt to map channel 5 to the servo
+    SRV_Channels::set_aux_channel_default(SRV_Channel::k_eos_back_motor_tilt, CH_10); // attempt to map channel 6 to the servo
+
     SRV_Channels::enable_aux_servos();
     
     return true;
@@ -115,8 +116,10 @@ void ModeEos::run()
     // call z-axis position controller
     pos_control->update_z_controller();
 
-    // moving tilting motor back and forth
-    SRV_Channels::set_output_pwm(SRV_Channel::k_tiltMotorLeft, RC_Channels::rc_channel(CH_2)->get_radio_in());
+    // moving tilting motor back and forth using the pitch stick which is channel 2
+    SRV_Channels::set_output_pwm(SRV_Channel::k_eos_front_motor_tilt, RC_Channels::rc_channel(CH_2)->get_radio_in());
+    SRV_Channels::set_output_pwm(SRV_Channel::k_eos_back_motor_tilt, RC_Channels::rc_channel(CH_2)->get_radio_in());
+
     SRV_Channels::calc_pwm();
     SRV_Channels::output_ch_all();
 
