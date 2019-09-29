@@ -12,16 +12,16 @@ bool ModeEos::init(bool ignore_checks)
     if (!pos_control->is_active_z()) {
         pos_control->set_alt_target_to_current_alt();
         pos_control->set_desired_velocity_z(inertial_nav.get_velocity_z());
-        
-        gcs().send_text(MAV_SEVERITY_INFO, "EOS mode active");
     }
 
 
     // initialise servo channel 9 and 10 to to output rc channel 2
-    SRV_Channels::set_aux_channel_default(SRV_Channel::k_eos_front_motor_tilt, CH_9); // attempt to map channel 5 to the servo
-    SRV_Channels::set_aux_channel_default(SRV_Channel::k_eos_back_motor_tilt, CH_10); // attempt to map channel 6 to the servo
+    SRV_Channels::set_aux_channel_default(SRV_Channel::k_eos_front_motor_tilt, CH_5); // attempt to map channel 5 to the servo
+    SRV_Channels::set_aux_channel_default(SRV_Channel::k_eos_back_motor_tilt, CH_6); // attempt to map channel 6 to the servo
 
     SRV_Channels::enable_aux_servos();
+
+    gcs().send_text(MAV_SEVERITY_INFO, "EOS mode active");
     
     return true;
 }
@@ -116,6 +116,7 @@ void ModeEos::run()
     // call z-axis position controller
     pos_control->update_z_controller();
 
+    gcs().send_text(MAV_SEVERITY_INFO, "EOS MODE: setting pwm output");
     // moving tilting motor back and forth using the pitch stick which is channel 2
     SRV_Channels::set_output_pwm(SRV_Channel::k_eos_front_motor_tilt, RC_Channels::rc_channel(CH_2)->get_radio_in());
     SRV_Channels::set_output_pwm(SRV_Channel::k_eos_back_motor_tilt, RC_Channels::rc_channel(CH_2)->get_radio_in());
