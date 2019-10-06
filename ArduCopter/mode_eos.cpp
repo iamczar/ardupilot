@@ -1,6 +1,8 @@
 #include "Copter.h"
 
-
+static int16_t map(int16_t input_value, int16_t in_min, int16_t in_max, int16_t out_min, int16_t out_max) {
+  return (input_value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
 /*
  * Init and run calls for althold, flight mode
  */
@@ -13,7 +15,6 @@ bool ModeEos::init(bool ignore_checks)
         pos_control->set_alt_target_to_current_alt();
         pos_control->set_desired_velocity_z(inertial_nav.get_velocity_z());
     }
-
 
     // initialise servo channel 9 and 10 to to output rc channel 2
     SRV_Channels::set_aux_channel_default(SRV_Channel::k_eos_front_motor_tilt, CH_5); // attempt to map channel 5 to the servo
@@ -111,17 +112,25 @@ void ModeEos::run()
     }
 
     // call attitude controller
-    attitude_control->input_euler_angle_roll_pitch_euler_rate_yaw(target_roll, target_pitch, target_yaw_rate);
+    attitude_control->input_euler_angle_roll_pitch_euler_rate_yaw(target_roll, 0, target_yaw_rate);
+    //attitude_control->input_euler_angle_roll_pitch_euler_rate_yaw(target_roll, target_pitch, target_yaw_rate);
+
 
     // call z-axis position controller
     pos_control->update_z_controller();
 
     gcs().send_text(MAV_SEVERITY_INFO, "EOS MODE: setting pwm output");
     // moving tilting motor back and forth using the pitch stick which is channel 2
-    SRV_Channels::set_output_pwm(SRV_Channel::k_eos_front_motor_tilt, RC_Channels::rc_channel(CH_2)->get_radio_in());
-    SRV_Channels::set_output_pwm(SRV_Channel::k_eos_back_motor_tilt, RC_Channels::rc_channel(CH_2)->get_radio_in());
+    int16_t front_motor_tilt_value = RC_Channels::rc_channel(CH_2)->get_radio_in();
+    int16_t back_motor_tilt_value = map(RC_Channels::rc_channel(CH_2)->get_radio_in(),1000,2000,2000,1000);
+
+    gcs().send_text(MAV_SEVERITY_INFO, "RC Channel 2: %u",RC_Channels::rc_channel(CH_2)->get_radio_in());
+    gcs().send_text(MAV_SEVERITY_INFO, "front_motor_tilt_value: %u",front_motor_tilt_value);
+    gcs().send_text(MAV_SEVERITY_INFO, "back_motor_tilt_value: %u",back_motor_tilt_value);
+
+    SRV_Channels::set_output_pwm(SRV_Channel::k_eos_front_motor_tilt, front_motor_tilt_value);
+    SRV_Channels::set_output_pwm(SRV_Channel::k_eos_back_motor_tilt, back_motor_tilt_value);
 
     SRV_Channels::calc_pwm();
     SRV_Channels::output_ch_all();
-
 }
