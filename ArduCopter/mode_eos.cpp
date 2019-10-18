@@ -112,21 +112,14 @@ void ModeEos::run()
     }
 
     // call attitude controller
-    attitude_control->input_euler_angle_roll_pitch_euler_rate_yaw(target_roll, 0, target_yaw_rate);
-    //attitude_control->input_euler_angle_roll_pitch_euler_rate_yaw(target_roll, target_pitch, target_yaw_rate);
-
+    attitude_control->input_euler_angle_roll_pitch_euler_rate_yaw(target_roll, target_pitch, target_yaw_rate);
 
     // call z-axis position controller
     pos_control->update_z_controller();
 
-    //gcs().send_text(MAV_SEVERITY_INFO, "EOS MODE: setting pwm output");
     // moving tilting motor back and forth using the pitch stick which is channel 2
-    int16_t front_motor_tilt_value = RC_Channels::rc_channel(CH_2)->get_radio_in();
-    int16_t back_motor_tilt_value = map(RC_Channels::rc_channel(CH_2)->get_radio_in(),1000,2000,2000,1000);
-
-    //gcs().send_text(MAV_SEVERITY_INFO, "RC Channel 2: %u",RC_Channels::rc_channel(CH_2)->get_radio_in());
-    //gcs().send_text(MAV_SEVERITY_INFO, "front_motor_tilt_value: %u",front_motor_tilt_value);
-    //gcs().send_text(MAV_SEVERITY_INFO, "back_motor_tilt_value: %u",back_motor_tilt_value);
+    int16_t front_motor_tilt_value = RC_Channels::rc_channel(CH_6)->get_radio_in();
+    int16_t back_motor_tilt_value = map(RC_Channels::rc_channel(CH_6)->get_radio_in(),1000,2000,2000,1000);
 
     SRV_Channels::set_output_pwm(SRV_Channel::k_eos_front_motor_tilt, front_motor_tilt_value);
     SRV_Channels::set_output_pwm(SRV_Channel::k_eos_back_motor_tilt, back_motor_tilt_value);
