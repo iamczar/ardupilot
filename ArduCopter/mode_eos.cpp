@@ -14,9 +14,12 @@ bool ModeEos::init(bool ignore_checks)
         pos_control->set_desired_velocity_z(inertial_nav.get_velocity_z());
     }
 
-    // initialise servo channel 9 and 10 to to output rc channel 2
-    SRV_Channels::set_aux_channel_default(SRV_Channel::k_eos_front_motor_tilt, CH_5); // attempt to map channel 5 to the servo
-    SRV_Channels::set_aux_channel_default(SRV_Channel::k_eos_back_motor_tilt, CH_6); // attempt to map channel 6 to the servo
+    // initialise AUX 1-4 to be used for the tilt servos
+    SRV_Channels::set_aux_channel_default(SRV_Channel::k_eos_front_mot_tilt_1, CH_5); 
+    SRV_Channels::set_aux_channel_default(SRV_Channel::k_eos_front_mot_tilt_2, CH_6); 
+
+    SRV_Channels::set_aux_channel_default(SRV_Channel::k_eos_back_mot_tilt_1, CH_7); 
+    SRV_Channels::set_aux_channel_default(SRV_Channel::k_eos_back_mot_tilt_2, CH_8);
 
     SRV_Channels::enable_aux_servos();
 
@@ -119,8 +122,11 @@ void ModeEos::run()
     int16_t front_motor_tilt_value = map(RC_Channels::rc_channel(CH_6)->get_radio_in(),1000,2000,1700,1300);
     int16_t back_motor_tilt_value = map(RC_Channels::rc_channel(CH_6)->get_radio_in(),1000,2000,1700,1300);
 
-    SRV_Channels::set_output_pwm(SRV_Channel::k_eos_front_motor_tilt, front_motor_tilt_value);
-    SRV_Channels::set_output_pwm(SRV_Channel::k_eos_back_motor_tilt, back_motor_tilt_value);
+    SRV_Channels::set_output_pwm(SRV_Channel::k_eos_front_mot_tilt_1, front_motor_tilt_value);
+    SRV_Channels::set_output_pwm(SRV_Channel::k_eos_front_mot_tilt_2, front_motor_tilt_value);
+
+    SRV_Channels::set_output_pwm(SRV_Channel::k_eos_back_mot_tilt_1, back_motor_tilt_value);
+    SRV_Channels::set_output_pwm(SRV_Channel::k_eos_back_mot_tilt_2, back_motor_tilt_value);
 
     SRV_Channels::calc_pwm();
     SRV_Channels::output_ch_all();

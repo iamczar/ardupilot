@@ -36,7 +36,7 @@ public:
         ZIGZAG    =    24,  // ZIGZAG mode is able to fly in a zigzag manner with predefined point A and point B
         SYSTEMID  =    25,  // System ID mode produces automated system identification signals in the controllers
         AUTOROTATE =   26,  // Autonomous autorotation
-	EOS       =    27,  // EOS mode is a tilt quad mode
+	    EOS       =    27,  // EOS mode is a tilt quad mode
     };
 
     // constructor
