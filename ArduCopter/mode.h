@@ -354,6 +354,8 @@ protected:
 
 private:
 
+    int16_t map(int16_t input_value, int16_t in_min, int16_t in_max, int16_t out_min, int16_t out_max); 
+
 };
 
 
